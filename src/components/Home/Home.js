@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
-import {AppStateContext, registerContendId} from "../../App";
+import { AppStateContext, registerContendId } from "../../App";
 import * as tus from "tus-js-client";
 import { createReadStream } from "fs-web";
 import "../../App.css";
@@ -92,7 +92,7 @@ const Home = (props) => {
       }
       upload.start();
 
-      await storeAssetOnIPFS(`60e4ca58-1490-43d4-a934-7d751f19eb1c`);
+      await storeAssetOnIPFS(`bd18c363-c8a6-45c5-a88b-170f9cfabbc7`);
     } catch (error) {
       console.log(error);
     }
@@ -101,7 +101,7 @@ const Home = (props) => {
   const sendBtn = (event) => {
     event.preventDefault();
 
-    // getUploadURL();
+    getUploadURL();
     setvideoFile(VideoFileRef.current.value);
     setdescription(Descriptionref.current.value);
 
@@ -119,7 +119,6 @@ const Home = (props) => {
     ]);
 
     registerContendId(123, contract, account);
-
 
     setuploadSucess(true);
   };
@@ -181,5 +180,5 @@ const Home = (props) => {
       )}
     </>
   );
-}
+};
 export default Home;

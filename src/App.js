@@ -297,7 +297,6 @@ function App() {
     },
   ];
 
-
   useEffect(() => {
     async function load() {
       const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
@@ -330,13 +329,34 @@ function App() {
             setuploadSucess,
             proposalData,
             setproposalData,
+            account,
           }}
         >
           <Router>
             <Routes>
-              <Route exact path="/" element={<Home contract={contract} account={account} web3Obj={web3Obj}/>} />
+              <Route
+                exact
+                path="/"
+                element={
+                  <Home
+                    contract={contract}
+                    account={account}
+                    web3Obj={web3Obj}
+                  />
+                }
+              />
               <Route exact path="/qrcode" element={<Qrcode />} />
-              <Route exact path="/list" element={<ProposeList contract={contract} account={account} web3Obj={web3Obj}/>} />
+              <Route
+                exact
+                path="/list"
+                element={
+                  <ProposeList
+                    contract={contract}
+                    account={account}
+                    web3Obj={web3Obj}
+                  />
+                }
+              />
               <Route exact path="/watchvideo" element={<Watchvideo />} />
             </Routes>
           </Router>
@@ -346,32 +366,29 @@ function App() {
   );
 }
 
-
-
-
 export function registerContendId(id, contract, account) {
   contract.methods
-      .registerContentId(id)
-      .send({ from: account })
-      .then(function (receipt) {
-        if (receipt) {
-          console.log("Fucntion is sucessfull");
-        } else {
-          console.log("Function is not succesfull");
-        }
-      });
+    .registerContentId(id)
+    .send({ from: account })
+    .then(function (receipt) {
+      if (receipt) {
+        console.log("Fucntion is sucessfull");
+      } else {
+        console.log("Function is not succesfull");
+      }
+    });
 }
 
 export function proposePrice(id, price, contract, account) {
-    contract.methods
-        .propose(id, price)
-        .send({ from: account })
-        .then(function (receipt) {
-            if (receipt) {
-            console.log("Propose is sucessfull");
-            } else {
-            console.log("Function is not succesfull");
-            }
-        });
+  contract.methods
+    .propose(id, price)
+    .send({ from: account })
+    .then(function (receipt) {
+      if (receipt) {
+        console.log("Propose is sucessfull");
+      } else {
+        console.log("Function is not succesfull");
+      }
+    });
 }
 export default App;

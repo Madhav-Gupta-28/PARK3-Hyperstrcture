@@ -5,11 +5,6 @@ import  "@uma/core/contracts/oracle/interfaces/OptimisticOracleInterface.sol";
 
 import "hardhat/console.sol";
 
-
-// *************************************
-// *   Minimum Viable OO Intergration  *
-// *************************************
-
 // This contract shows how to get up and running as quickly as posible with UMA's Optimistic Oracle.
 // We make a simple price request to the OO and return it to the user.
 
