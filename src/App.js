@@ -38,274 +38,232 @@ function App() {
 
   let abi = [
     {
-      inputs: [],
-      stateMutability: "nonpayable",
-      type: "constructor",
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
     },
     {
-      inputs: [
+      "inputs": [],
+      "name": "getCids",
+      "outputs": [
         {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
       ],
-      name: "Proposals",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "proposalId",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "contendId",
-          type: "uint256",
-        },
-        {
-          internalType: "bytes",
-          name: "AncillaryData",
-          type: "bytes",
-        },
-        {
-          internalType: "uint256",
-          name: "StartingTime",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "ExpirationTime",
-          type: "uint256",
-        },
-        {
-          internalType: "bool",
-          name: "passed",
-          type: "bool",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [],
-      name: "getCids",
-      outputs: [
+      "inputs": [
         {
-          internalType: "uint256[]",
-          name: "",
-          type: "uint256[]",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      stateMutability: "view",
-      type: "function",
+      "name": "getData",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      name: "getData",
-      outputs: [
+      "name": "getExpirationTime",
+      "outputs": [
         {
-          internalType: "bytes",
-          name: "",
-          type: "bytes",
-        },
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
-      stateMutability: "view",
-      type: "function",
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [],
+      "name": "getOracleAddress",
+      "outputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
       ],
-      name: "getExpirationTime",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [],
-      name: "getOracleAddress",
-      outputs: [
+      "inputs": [
         {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      stateMutability: "view",
-      type: "function",
+      "name": "getSettledData",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      name: "getSettledData",
-      outputs: [
+      "name": "getStartingTime",
+      "outputs": [
         {
-          internalType: "int256",
-          name: "",
-          type: "int256",
-        },
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
-      stateMutability: "view",
-      type: "function",
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      name: "getStartingTime",
-      outputs: [
+      "name": "getState",
+      "outputs": [
         {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
+          "internalType": "enum OptimisticOracleV2Interface.State",
+          "name": "",
+          "type": "uint8"
+        }
       ],
-      stateMutability: "view",
-      type: "function",
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
       ],
-      name: "getState",
-      outputs: [
-        {
-          internalType: "enum OptimisticOracleV2Interface.State",
-          name: "",
-          type: "uint8",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      inputs: [],
-      name: "owner",
-      outputs: [
+      "inputs": [
         {
-          internalType: "address",
-          name: "",
-          type: "address",
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
         },
+        {
+          "internalType": "int256",
+          "name": "proposedPrice",
+          "type": "int256"
+        }
       ],
-      stateMutability: "view",
-      type: "function",
+      "name": "propose",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
-        {
-          internalType: "int256",
-          name: "proposedPrice",
-          type: "int256",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      name: "propose",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
+      "name": "registerContentId",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      name: "registerContentId",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
+      "name": "requestData",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [
         {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
+          "internalType": "string",
+          "name": "data",
+          "type": "string"
         },
+        {
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      name: "requestData",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
+      "name": "setAncillaryData",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      inputs: [
+      "inputs": [
         {
-          internalType: "string",
-          name: "data",
-          type: "string",
-        },
-        {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
+          "internalType": "uint256",
+          "name": "contentId",
+          "type": "uint256"
+        }
       ],
-      name: "setAncillaryData",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "contentId",
-          type: "uint256",
-        },
-      ],
-      name: "settleRequest",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
+      "name": "settleRequest",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
   ];
+
 
   useEffect(() => {
     async function load() {
       const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
+
       setWeb3Obj(web3);
       const accounts = await web3.eth.requestAccounts();
       setAccount(accounts[0]);
       const _contract = new web3.eth.Contract(
         abi,
-        "0x3368f41abd14350782f19346872fa36d2fb111a7"
+        "0xD7D474D8f00B4f868740aBEb79211c11F5E62B54"
       );
       //_contract.address = "0x3368f41abd14350782f19346872fa36d2fb111a7";
       setContract(_contract);
@@ -329,34 +287,13 @@ function App() {
             setuploadSucess,
             proposalData,
             setproposalData,
-            account,
           }}
         >
           <Router>
             <Routes>
-              <Route
-                exact
-                path="/"
-                element={
-                  <Home
-                    contract={contract}
-                    account={account}
-                    web3Obj={web3Obj}
-                  />
-                }
-              />
+              <Route exact path="/" element={<Home contract={contract} account={account} web3Obj={web3Obj}/>} />
               <Route exact path="/qrcode" element={<Qrcode />} />
-              <Route
-                exact
-                path="/list"
-                element={
-                  <ProposeList
-                    contract={contract}
-                    account={account}
-                    web3Obj={web3Obj}
-                  />
-                }
-              />
+              <Route exact path="/list" element={<ProposeList contract={contract} account={account} web3Obj={web3Obj}/>} />
               <Route exact path="/watchvideo" element={<Watchvideo />} />
             </Routes>
           </Router>
@@ -366,29 +303,33 @@ function App() {
   );
 }
 
+
+
+
 export function registerContendId(id, contract, account) {
   contract.methods
-    .registerContentId(id)
-    .send({ from: account })
-    .then(function (receipt) {
-      if (receipt) {
-        console.log("Fucntion is sucessfull");
-      } else {
-        console.log("Function is not succesfull");
-      }
-    });
+      .registerContentId(id)
+      .send({ from: account })
+      .then(function (receipt) {
+        if (receipt) {
+          console.log("Fucntion is sucessfull");
+        } else {
+          console.log("Function is not succesfull");
+        }
+      });
 }
 
 export function proposePrice(id, price, contract, account) {
-  contract.methods
-    .propose(id, price)
-    .send({ from: account })
-    .then(function (receipt) {
-      if (receipt) {
-        console.log("Propose is sucessfull");
-      } else {
-        console.log("Function is not succesfull");
-      }
-    });
+
+    contract.methods
+        .propose(id, price)
+        .send({ from: account })
+        .then(function (receipt) {
+            if (receipt) {
+            console.log("Propose is sucessfull");
+            } else {
+            console.log("Function is not succesfull");
+            }
+        });
 }
 export default App;
