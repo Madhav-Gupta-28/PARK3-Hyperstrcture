@@ -10,6 +10,10 @@ module.exports = {
       url: process.env.POLYGON_ENDPOINT,
       accounts: [process.env.PRIVATE_KEY],
     },
+    goerili: {
+      url: "https://eth-goerli.g.alchemy.com/v2/NApFJFaNnKxnDswzxbGhgkbthLz-2Nv4",
+      accounts: [process.env.PRIVATE_KEY],
+    },
   },
 
   etherscan: {

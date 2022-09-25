@@ -20,7 +20,7 @@ contract Uma {
     }
 
     // Create an Optimistic oracle instance at the deployed address on Mumbai.
-    OptimisticOracleInterface oo = OptimisticOracleInterface(0xAB75727d4e89A7f7F04f57C00234a35950527115);
+    OptimisticOracleInterface oo = OptimisticOracleInterface(0xA5B9d8a0B0Fa04Ba71BDD68069661ED5C0848884);
 
     // Use the yes no idetifier to ask arbitary questions, such as the weather on a particular day.
     bytes32 identifier = bytes32("YES_OR_NO_QUERY");
@@ -56,7 +56,7 @@ contract Uma {
     // Submit a data request to the Optimistic oracle.
     function requestData(uint contentId) public {
         contentIdToStartingTime[contentId] = block.timestamp; // Set the request time to the current block time.
-        IERC20 bondCurrency = IERC20(0x28E886cAf21F2428DBf0B6cADB0b6E90B7cFB0d1); // Use Görli WETH as the bond currency.
+        IERC20 bondCurrency = IERC20(0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6); // Use Görli WETH as the bond currency.
         uint256 reward = 0; // Set the reward to 0 (so we dont have to fund it from this contract).
         bytes memory ad = contentIdToAncillaryData[contentId];
 
