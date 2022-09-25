@@ -67,3 +67,18 @@ https://user-images.githubusercontent.com/25784418/192062578-75905ea2-fc64-436f-
 - A shared responsibility of a geographic community<br>
 - Large Value in Real Estate Holdings <br>
 - Legal Obligations for administrators<br>
+
+Polygon PARK3 tokens used as Bond for Oracle:
+https://mumbai.polygonscan.com/token/0x28E886cAf21F2428DBf0B6cADB0b6E90B7cFB0d1
+<br><br>
+IPFS Content Hash:<br>
+ipfs://bafybeiabbzawadnujkl53zcif66ollnosb2xuibjvupshxsilyz3364krm
+<br><br>
+LIVEPEER ASSET:<br>
+Bike_Racks.mp4<br>
+Playback URL<br>
+https://livepeercdn.com/recor…8/index.m3u8<br>
+Asset ID<br>
+5790e09f-071d-4afa-a702-f42779156237<br>
+
+
