@@ -8,14 +8,16 @@ import Qrcode from "../QRCode/Qrcode";
 
 // require("dotenv").config();
 
-function Home() {
+const Home = (props) => {
   const [videoFile, setvideoFile] = useState("");
   const [assetTUS, setAssetTUS] = useState("");
   const [Videourl, seturl] = useState("");
   const [video, setvideo] = useState("");
 
+  let contract = props.contract;
+  let account = props.account;
+  let web3Obj = props.web3Obj;
   const {
-    walletaddress,
     login,
     setdescription,
     description,
@@ -108,7 +110,7 @@ function Home() {
     setproposalData([
       ...proposalData,
       {
-        proposer: walletaddress,
+        proposer: account,
         description: description,
         documentName: videoFile,
         progress: "OnGoing",
