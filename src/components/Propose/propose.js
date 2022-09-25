@@ -25,19 +25,21 @@ const Proposal = (props) => {
               {proposal.proposer.slice(0, 6)}...{proposal.proposer.slice(38)}
             </div>
             <div className="proposal-report inline">
-              <a
-                // href={"#"}
-                onClick={() =>
-                  proposePrice(123, 0, props.contract, props.account)
-                }
-              >
-                Report
-              </a>
+
+
+              <a href={"#"} onClick={() => proposePrice(123, 0, props.contract, props.account)}
+                 >Report</a>
+            </div>
+            <div className="proposal-report inline">
+
+
+              <a href={"#"} onClick={() => proposePrice(123, 1, props.contract, props.account)}
+              >Correct</a>
             </div>
           </div>
         );
       })}
     </div>
   );
-};
+}
 export default Proposal;
