@@ -3,6 +3,9 @@ pragma solidity ^0.8.7;
 
 import "@uma/core/contracts/oracle/interfaces/OptimisticOracleV2Interface.sol";
 import "hardhat/console.sol";
+
+
+
 // *************************************
 // *   Minimum Viable OO Intergration  *
 // *************************************
@@ -21,7 +24,7 @@ contract Uma {
 
     }
 
-    // Create an Optimistic oracle instance at the deployed address on Görli.
+    // Create an Optimistic oracle instance at the deployed address on Mumbai.
     OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(0xA5B9d8a0B0Fa04Ba71BDD68069661ED5C0848884);
 
     // Use the yes no idetifier to ask arbitary questions, such as the weather on a particular day.
@@ -80,7 +83,7 @@ contract Uma {
 
         // Now, make the price request to the Optimistic oracle and set the liveness to 30 so it will settle quickly.
         oo.requestPrice(identifier, contentIdToStartingTime[contentId], ad, bondCurrency, reward);
-        oo.setEventBased(identifier, contentIdToExpirationTime[contentId], ad);
+        oo.setEventBased(identifier, contentIdToStartingTime[contentId], ad);
         oo.setCustomLiveness(identifier, contentIdToStartingTime[contentId], ad, 100);
         //return current time
     }
@@ -96,12 +99,29 @@ contract Uma {
         oo.settle(address(this), identifier, requestTime, ad);
     }
 
+    function propose(uint contentId, int256 proposedPrice) public {
+        bytes memory ad = contentIdToAncillaryData[contentId];
+        uint256 requestTime = contentIdToStartingTime[contentId];
+
+        oo.proposePriceFor(msg.sender, address(this), identifier, requestTime, ad, proposedPrice);
+    }
+
+    function getState(uint contentId) public view returns (OptimisticOracleV2Interface.State) {
+        uint256 requestTime = contentIdToStartingTime[contentId];
+        address requester = contentIdToAddress[contentId];
+        bytes memory ad = contentIdToAncillaryData[contentId];
+
+	return oo.getState(address(this), identifier, requestTime, ad);
+    }
+
     // Fetch the resolved price from the Optimistic Oracle that was settled.
     function getSettledData(uint contentId) public view returns (int256) {
         bytes memory ad = contentIdToAncillaryData[contentId];
         uint256 requestTime = contentIdToStartingTime[contentId];
         return oo.getRequest(address(this), identifier, requestTime, ad).resolvedPrice;
     }
+
+    
 
     function getCids() public view returns (uint[] memory) {
         return contentIds[msg.sender];
@@ -124,6 +144,8 @@ contract Uma {
         bytes memory ancillaryData = contentIdToAncillaryData[contentId];
         return oo.getRequest(address(this), identifier, startingTime, ancillaryData).expirationTime;
     }
+
+    
 
     function getOracleAddress() public view returns(address) {
         return address(oo);
