@@ -20782,7 +20782,7 @@
     "randombytes" "^2.1.0"
     "utf8" "3.0.0"
 
-"web3@^1.0.0-beta.36", "web3@^1.6.0":
+"web3@^1.0.0-beta.36", "web3@^1.6.0", "web3@^1.8.0":
   "integrity" "sha512-sldr9stK/SALSJTgI/8qpnDuBJNMGjVR84hJ+AcdQ+MLBGLMGsCDNubCoyO6qgk1/Y9SQ7ignegOI/7BPLoiDA=="
   "resolved" "https://registry.npmjs.org/web3/-/web3-1.8.0.tgz"
   "version" "1.8.0"

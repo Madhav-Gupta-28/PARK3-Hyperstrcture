@@ -1,124 +1,27 @@
-import "./index.css";
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import Login from "./components/Login/Login";
-import Home from "./components/Home/Home";
-import Qrcode from "./components/QRCode/Qrcode";
-import ProposeList from "./components/ProposesList/ProposeList";
-import Watchvideo from "./components/watchVideo/Watchvideo";
-import Web3 from "web3";
-import { useState, createContext, useEffect } from "react";
-import {
-  createReactClient,
-  studioProvider,
-  LivepeerConfig,
-} from "@livepeer/react";
-
 const ethers = require("ethers");
-// const fs = require("fs-extra");
+const fs = require("fs-extra");
+require("dotenv").config();
 
-export const AppStateContext = createContext(null);
+async function main() {
+  await window.ethereum.enable();
+  let provider = new ethers.providers.Web3Provider(window.ethereum);
+  let contractAddress = "0x3368f41abd14350782f19346872fa36d2fb111a7";
 
-function App() {
-  const [login, setlogin] = useState(false);
-  const [walletaddress, setwalletaddress] = useState("");
-  const [description, setdescription] = useState("");
-  const [uploadSucess, setuploadSucess] = useState(false);
-  const [proposalData, setproposalData] = useState([]);
-  const [provider, setprovider] = useState("");
-  const [signer, setsigner] = useState("");
-  const [contract, setContract] = useState();
-  const [account, setAccount] = useState();
-  const [web3Obj, setWeb3Obj] = useState();
+  const signer = provider.getSigner();
 
-  const client = createReactClient({
-    provider: studioProvider({
-      apiKey: "6a234aef-9c9c-41a1-82ba-948e33476fa2",
-    }),
-  });
+  let contract = new ethers.Contract(contractAddress, abi, provider);
 
-  // useEffect(() => {
-  //   async function ethersConnect() {
-  //     await window.ethereum.enable();
-  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     let contractAddress = "0x3368f41abd14350782f19346872fa36d2fb111a7";
+  let balance = await provider.getBalance("ethers.eth");
 
-  //     const signer = provider.getSigner();
-
-  //     let contract = new ethers.Contract(contractAddress, abi, provider);
-
-  //     const daiWithSigner = contract.connect(signer);
-
-  //     const registerContendId = await contract.registerContentId(123);
-  //     await registerContendId.wait();
-  //   }
-  // }, []);
-
-  function registerContendId(id, contract, account) {
-    contract.methods
-      .registerContentId(id)
-      .send({ from: account })
-      .then(function (receipt) {
-        if (receipt) {
-          console.log("Fucntion is sucessfull");
-        } else {
-          console.log("Function is not succesfull");
-        }
-      });
-  }
-
-  useEffect(() => {
-    async function load() {
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
-      setWeb3Obj(web3);
-      const accounts = await web3.eth.requestAccounts();
-      setAccount(accounts[0]);
-      const _contract = new web3.eth.Contract(
-        abi,
-        "0x3368f41abd14350782f19346872fa36d2fb111a7"
-      );
-      _contract.address = "0x3368f41abd14350782f19346872fa36d2fb111a7";
-      setContract(_contract);
-      console.log(`COntract Object ${contract}`);
-
-      // registerContendId(123, contract, walletaddress);
-    }
-
-    load();
-  }, []);
-
-  return (
-    <>
-      <LivepeerConfig client={client}>
-        <AppStateContext.Provider
-          value={{
-            login,
-            setlogin,
-            walletaddress,
-            setwalletaddress,
-            description,
-            setdescription,
-            uploadSucess,
-            setuploadSucess,
-            proposalData,
-            setproposalData,
-          }}
-        >
-          <Router>
-            <Routes>
-              <Route exact path="/" element={<Login />} />
-              <Route exact path="/home" element={<Home />} />
-              <Route exact path="/qrcode" element={<Qrcode />} />
-              <Route exact path="/list" element={<ProposeList />} />
-              <Route exact path="/watchvideo" element={<Watchvideo />} />
-            </Routes>
-          </Router>
-        </AppStateContext.Provider>
-      </LivepeerConfig>
-    </>
-  );
+  console.log(balance);
 }
 
-export default App;
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
 
 let abi = [
   {
