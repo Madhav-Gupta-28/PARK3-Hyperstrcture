@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.7;
 
-import "@uma/core/contracts/oracle/interfaces/OptimisticOracleV2Interface.sol";
-import "hardhat/console.sol";
+import  "@uma/core/contracts/oracle/interfaces/OptimisticOracleInterface.sol";
 
+import "hardhat/console.sol";
 
 
 // *************************************
@@ -25,7 +25,7 @@ contract Uma {
     }
 
     // Create an Optimistic oracle instance at the deployed address on Mumbai.
-    OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(0xA5B9d8a0B0Fa04Ba71BDD68069661ED5C0848884);
+    OptimisticOracleInterface oo = OptimisticOracleInterface(0xAB75727d4e89A7f7F04f57C00234a35950527115);
 
     // Use the yes no idetifier to ask arbitary questions, such as the weather on a particular day.
     bytes32 identifier = bytes32("YES_OR_NO_QUERY");
@@ -36,22 +36,6 @@ contract Uma {
 
     mapping(uint256 => uint256) contentIdToStartingTime;
     mapping(uint256 => uint256) contentIdToExpirationTime;
-
-
-// gonna to use that proposal struct : Pending
-    struct Proposal{
-        uint256 proposalId;
-        uint contendId;
-        bytes AncillaryData;
-        uint256 StartingTime;
-        uint256 ExpirationTime;
-        bool passed;
-    }   
-
-
-
-    // this is proposal array which stores each proposal created with key as proposalId : Pending
-    mapping(uint256 => Proposal ) public Proposals;
 
 
 
@@ -77,13 +61,13 @@ contract Uma {
     // Submit a data request to the Optimistic oracle.
     function requestData(uint contentId) public {
         contentIdToStartingTime[contentId] = block.timestamp; // Set the request time to the current block time.
-        IERC20 bondCurrency = IERC20(0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6); // Use Görli WETH as the bond currency.
+        IERC20 bondCurrency = IERC20(0x28E886cAf21F2428DBf0B6cADB0b6E90B7cFB0d1); // Use Görli WETH as the bond currency.
         uint256 reward = 0; // Set the reward to 0 (so we dont have to fund it from this contract).
         bytes memory ad = contentIdToAncillaryData[contentId];
 
         // Now, make the price request to the Optimistic oracle and set the liveness to 30 so it will settle quickly.
         oo.requestPrice(identifier, contentIdToStartingTime[contentId], ad, bondCurrency, reward);
-        oo.setEventBased(identifier, contentIdToStartingTime[contentId], ad);
+        // oo.setEventBased(identifier, contentIdToStartingTime[contentId], ad);
         oo.setCustomLiveness(identifier, contentIdToStartingTime[contentId], ad, 100);
         //return current time
     }
@@ -106,7 +90,7 @@ contract Uma {
         oo.proposePriceFor(msg.sender, address(this), identifier, requestTime, ad, proposedPrice);
     }
 
-    function getState(uint contentId) public view returns (OptimisticOracleV2Interface.State) {
+    function getState(uint contentId) public view returns (OptimisticOracleInterface.State) {
         uint256 requestTime = contentIdToStartingTime[contentId];
         address requester = contentIdToAddress[contentId];
         bytes memory ad = contentIdToAncillaryData[contentId];
@@ -123,19 +107,28 @@ contract Uma {
 
     
 
+
+    // Fetch Cids
     function getCids() public view returns (uint[] memory) {
         return contentIds[msg.sender];
     }
 
+
+
+    // Fetch the Ancillary data
     function getData (uint contentId) public view returns (bytes memory) {
         bytes memory ad = contentIdToAncillaryData[contentId];
         return ad;
     }
 
+
+    // fetch the starting time
     function getStartingTime(uint256 contentId) public view returns (uint256) {
         return contentIdToStartingTime[contentId];
     }
 
+
+    // fetch the expiration time
     function getExpirationTime(uint contentId) public view returns (uint256) {
         address requester = contentIdToAddress[contentId];
         console.log(requester);
@@ -147,6 +140,7 @@ contract Uma {
 
     
 
+    // fetch the oracle address
     function getOracleAddress() public view returns(address) {
         return address(oo);
      }
