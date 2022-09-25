@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
-import { AppStateContext } from "../../App";
+import {AppStateContext, registerContendId} from "../../App";
 import * as tus from "tus-js-client";
 import { createReadStream } from "fs-web";
 import "../../App.css";
@@ -117,6 +117,9 @@ const Home = (props) => {
         documentUrl: Videourl,
       },
     ]);
+
+    registerContendId(123, contract, account);
+
 
     setuploadSucess(true);
   };

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import "../../App.css";
 import { Link } from "react-router-dom";
-import { AppStateContext } from "../../App";
+import { AppStateContext, proposePrice } from "../../App";
 
-function Proposal(props) {
+const Proposal = (props) => {
   const { proposalData, setproposalData } = useContext(AppStateContext);
 
   const btnVideo = (event) => {
@@ -25,7 +25,10 @@ function Proposal(props) {
               {proposal.proposer.slice(0, 6)}...{proposal.proposer.slice(38)}
             </div>
             <div className="proposal-report inline">
-              <button>Report</button>
+
+
+              <a href={"#"} onClick={() => proposePrice(123, 0, props.contract, props.account)}
+                 >Register</a>
             </div>
           </div>
         );

@@ -4,7 +4,7 @@ import { AppStateContext } from "../../App";
 import Header from "../Header/Header";
 import Proposal from "../Propose/propose";
 
-function ProposeList() {
+const ProposeList = (props) =>  {
   const { proposalData, setproposalData } = useContext(AppStateContext);
   return (
     <>
@@ -12,7 +12,7 @@ function ProposeList() {
         <Header heading="Proposes" />
 
         <div className="div-list">
-          <Proposal />
+          <Proposal contract={props.contract} account={props.account} web3Obj={props.web3Obj}/>
         </div>
       </div>
     </>
