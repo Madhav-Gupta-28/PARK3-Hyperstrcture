@@ -30,6 +30,9 @@ function App() {
   const [account, setAccount] = useState();
   const [web3Obj, setWeb3Obj] = useState();
 
+  // declaring an assest id
+  const [assetid, setassetid] = useState("");
+
   const client = createReactClient({
     provider: studioProvider({
       apiKey: "6a234aef-9c9c-41a1-82ba-948e33476fa2",
@@ -38,226 +41,225 @@ function App() {
 
   let abi = [
     {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
+      inputs: [],
+      stateMutability: "nonpayable",
+      type: "constructor",
     },
     {
-      "inputs": [],
-      "name": "getCids",
-      "outputs": [
+      inputs: [],
+      name: "getCids",
+      outputs: [
         {
-          "internalType": "bytes[]",
-          "name": "",
-          "type": "bytes[]"
-        }
+          internalType: "bytes[]",
+          name: "",
+          type: "bytes[]",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "getData",
-      "outputs": [
+      name: "getData",
+      outputs: [
         {
-          "internalType": "bytes",
-          "name": "",
-          "type": "bytes"
-        }
+          internalType: "bytes",
+          name: "",
+          type: "bytes",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "getExpirationTime",
-      "outputs": [
+      name: "getExpirationTime",
+      outputs: [
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [],
-      "name": "getOracleAddress",
-      "outputs": [
+      inputs: [],
+      name: "getOracleAddress",
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "getSettledData",
-      "outputs": [
+      name: "getSettledData",
+      outputs: [
         {
-          "internalType": "int256",
-          "name": "",
-          "type": "int256"
-        }
+          internalType: "int256",
+          name: "",
+          type: "int256",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "getStartingTime",
-      "outputs": [
+      name: "getStartingTime",
+      outputs: [
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "getState",
-      "outputs": [
+      name: "getState",
+      outputs: [
         {
-          "internalType": "enum OptimisticOracleInterface.State",
-          "name": "",
-          "type": "uint8"
-        }
+          internalType: "enum OptimisticOracleInterface.State",
+          name: "",
+          type: "uint8",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
+      inputs: [],
+      name: "owner",
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
+          internalType: "string",
+          name: "contentId",
+          type: "string",
         },
         {
-          "internalType": "int256",
-          "name": "proposedPrice",
-          "type": "int256"
-        }
+          internalType: "int256",
+          name: "proposedPrice",
+          type: "int256",
+        },
       ],
-      "name": "propose",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      name: "propose",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "registerContentId",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      name: "registerContentId",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
+          internalType: "string",
+          name: "contentId",
+          type: "string",
         },
         {
-          "internalType": "string",
-          "name": "data",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "data",
+          type: "string",
+        },
       ],
-      "name": "requestData",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      name: "requestData",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "data",
-          "type": "string"
+          internalType: "string",
+          name: "data",
+          type: "string",
         },
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "setAncillaryData",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      name: "setAncillaryData",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contentId",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "contentId",
+          type: "string",
+        },
       ],
-      "name": "settleRequest",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
+      name: "settleRequest",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
   ];
-
 
   useEffect(() => {
     async function load() {
@@ -292,13 +294,35 @@ function App() {
             setuploadSucess,
             proposalData,
             setproposalData,
+            assetid,
+            setassetid,
           }}
         >
           <Router>
             <Routes>
-              <Route exact path="/" element={<Home contract={contract} account={account} web3Obj={web3Obj}/>} />
+              <Route
+                exact
+                path="/"
+                element={
+                  <Home
+                    contract={contract}
+                    account={account}
+                    web3Obj={web3Obj}
+                  />
+                }
+              />
               <Route exact path="/qrcode" element={<Qrcode />} />
-              <Route exact path="/list" element={<ProposeList contract={contract} account={account} web3Obj={web3Obj}/>} />
+              <Route
+                exact
+                path="/list"
+                element={
+                  <ProposeList
+                    contract={contract}
+                    account={account}
+                    web3Obj={web3Obj}
+                  />
+                }
+              />
               <Route exact path="/watchvideo" element={<Watchvideo />} />
             </Routes>
           </Router>
@@ -309,30 +333,28 @@ function App() {
 }
 
 export function requestData(contentId, videoDescription, contract, account) {
-
   contract.methods
-      .requestData(contentId, videoDescription)
-      .send({ from: account })
-      .then(function (receipt) {
-        if (receipt) {
-          console.log("requestData is sucessfull");
-        } else {
-          console.log("requestData is not succesfull");
-        }
-      });
+    .requestData(contentId, videoDescription)
+    .send({ from: account })
+    .then(function (receipt) {
+      if (receipt) {
+        console.log("requestData is sucessfull");
+      } else {
+        console.log("requestData is not succesfull");
+      }
+    });
 }
 
 export function proposePrice(contentId, price, contract, account) {
-
   contract.methods
-      .propose(contentId, price)
-      .send({ from: account })
-      .then(function (receipt) {
-        if (receipt) {
-          console.log("requestData is sucessfull");
-        } else {
-          console.log("requestData is not succesfull");
-        }
-      });
+    .propose(contentId, price)
+    .send({ from: account })
+    .then(function (receipt) {
+      if (receipt) {
+        console.log("requestData is sucessfull");
+      } else {
+        console.log("requestData is not succesfull");
+      }
+    });
 }
 export default App;

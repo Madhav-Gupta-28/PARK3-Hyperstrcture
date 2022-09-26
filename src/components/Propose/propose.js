@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { AppStateContext, proposePrice } from "../../App";
 
 const Proposal = (props) => {
-  const { proposalData, setproposalData } = useContext(AppStateContext);
+  const { proposalData, setproposalData, assetid, setassetid } =
+    useContext(AppStateContext);
 
   const btnVideo = (event) => {
     event.preventDefault();
@@ -25,21 +26,30 @@ const Proposal = (props) => {
               {proposal.proposer.slice(0, 6)}...{proposal.proposer.slice(38)}
             </div>
             <div className="proposal-report inline">
-
-
-              <a href={"#"} onClick={() => proposePrice(proposal.id, 0, props.contract, props.account)}
-                 >Report</a>
+              <a
+                href={"#"}
+                onClick={() =>
+                  proposePrice(assetid, 0, props.contract, props.account)
+                }
+              >
+                Report
+              </a>
             </div>
             <div className="proposal-report inline">
-
-
-              <a href={"#"} onClick={() => proposePrice(proposal.id, 1, props.contract, props.account)}
-              >Correct: {proposal.id}</a>
+              <a
+                href={"#"}
+                onClick={() =>
+                  proposePrice(assetid, 1, props.contract, props.account)
+                }
+              >
+                {/* Correct: {assetid} */}
+                Correct
+              </a>
             </div>
           </div>
         );
       })}
     </div>
   );
-}
+};
 export default Proposal;
