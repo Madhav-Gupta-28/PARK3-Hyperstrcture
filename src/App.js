@@ -47,9 +47,9 @@ function App() {
       "name": "getCids",
       "outputs": [
         {
-          "internalType": "uint256[]",
+          "internalType": "bytes[]",
           "name": "",
-          "type": "uint256[]"
+          "type": "bytes[]"
         }
       ],
       "stateMutability": "view",
@@ -58,9 +58,9 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "getData",
@@ -77,9 +77,9 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "getExpirationTime",
@@ -109,9 +109,9 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "getSettledData",
@@ -128,9 +128,9 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "getStartingTime",
@@ -147,15 +147,15 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "getState",
       "outputs": [
         {
-          "internalType": "enum OptimisticOracleV2Interface.State",
+          "internalType": "enum OptimisticOracleInterface.State",
           "name": "",
           "type": "uint8"
         }
@@ -179,9 +179,9 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         },
         {
           "internalType": "int256",
@@ -197,9 +197,9 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "registerContentId",
@@ -210,9 +210,14 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "data",
+          "type": "string"
         }
       ],
       "name": "requestData",
@@ -228,9 +233,9 @@ function App() {
           "type": "string"
         },
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "setAncillaryData",
@@ -241,9 +246,9 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "contentId",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "settleRequest",
@@ -263,7 +268,7 @@ function App() {
       setAccount(accounts[0]);
       const _contract = new web3.eth.Contract(
         abi,
-        "0xD7D474D8f00B4f868740aBEb79211c11F5E62B54"
+        "0x72665365323F772c22Fd8848550603C095aa6275"
       );
       //_contract.address = "0x3368f41abd14350782f19346872fa36d2fb111a7";
       setContract(_contract);
@@ -303,33 +308,31 @@ function App() {
   );
 }
 
+export function requestData(contentId, videoDescription, contract, account) {
 
-
-
-export function registerContendId(id, contract, account) {
   contract.methods
-      .registerContentId(id)
+      .requestData(contentId, videoDescription)
       .send({ from: account })
       .then(function (receipt) {
         if (receipt) {
-          console.log("Fucntion is sucessfull");
+          console.log("requestData is sucessfull");
         } else {
-          console.log("Function is not succesfull");
+          console.log("requestData is not succesfull");
         }
       });
 }
 
-export function proposePrice(id, price, contract, account) {
+export function proposePrice(contentId, price, contract, account) {
 
-    contract.methods
-        .propose(id, price)
-        .send({ from: account })
-        .then(function (receipt) {
-            if (receipt) {
-            console.log("Propose is sucessfull");
-            } else {
-            console.log("Function is not succesfull");
-            }
-        });
+  contract.methods
+      .propose(contentId, price)
+      .send({ from: account })
+      .then(function (receipt) {
+        if (receipt) {
+          console.log("requestData is sucessfull");
+        } else {
+          console.log("requestData is not succesfull");
+        }
+      });
 }
 export default App;

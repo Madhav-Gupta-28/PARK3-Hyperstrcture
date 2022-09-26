@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
-import { AppStateContext, registerContendId } from "../../App";
+import {AppStateContext, registerContendId, requestData, setAncillaryData} from "../../App";
 import * as tus from "tus-js-client";
 import { createReadStream } from "fs-web";
 import "../../App.css";
@@ -13,6 +13,7 @@ const Home = (props) => {
   const [assetTUS, setAssetTUS] = useState("");
   const [Videourl, seturl] = useState("");
   const [video, setvideo] = useState("");
+  const [assetId, setAssetId] = useState("");
 
   let contract = props.contract;
   let account = props.account;
@@ -61,10 +62,13 @@ const Home = (props) => {
         }
       );
 
-      const { url, tusEndpoint } = await response.json();
+      const { url, tusEndpoint, asset } = await response.json(); // Getting asset id
 
       setAssetTUS(tusEndpoint);
       seturl(url);
+      console.log("Asset id before setassetid: "+asset.id);
+      setAssetId(asset.id);
+
       console.log(Videourl);
 
       const upload = new tus.Upload(video, {
@@ -115,10 +119,11 @@ const Home = (props) => {
         documentName: videoFile,
         progress: "OnGoing",
         documentUrl: Videourl,
+        id: assetId
       },
     ]);
-
-    registerContendId(123, contract, account);
+  console.log("Created and uploaded asset with asset id "+assetId);
+    requestData(assetId,description, contract, account);
 
     setuploadSucess(true);
   };

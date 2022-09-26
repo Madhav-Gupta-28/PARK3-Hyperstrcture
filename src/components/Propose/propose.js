@@ -27,14 +27,14 @@ const Proposal = (props) => {
             <div className="proposal-report inline">
 
 
-              <a href={"#"} onClick={() => proposePrice(123, 0, props.contract, props.account)}
+              <a href={"#"} onClick={() => proposePrice(proposal.id, 0, props.contract, props.account)}
                  >Report</a>
             </div>
             <div className="proposal-report inline">
 
 
-              <a href={"#"} onClick={() => proposePrice(123, 1, props.contract, props.account)}
-              >Correct</a>
+              <a href={"#"} onClick={() => proposePrice(proposal.id, 1, props.contract, props.account)}
+              >Correct: {proposal.id}</a>
             </div>
           </div>
         );
