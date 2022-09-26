@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.7;
 
-import  "@uma/core/contracts/oracle/interfaces/OptimisticOracleInterface.sol";
+import  "@uma/core/contracts/oracle/interfaces/OptimisticOracleV2Interface.sol";
 
 import "hardhat/console.sol";
+
+
 
 // This contract shows how to get up and running as quickly as posible with UMA's Optimistic Oracle.
 // We make a simple price request to the OO and return it to the user.
@@ -19,8 +21,9 @@ contract Uma {
 
     }
 
+
     // Create an Optimistic oracle instance at the deployed address on Mumbai.
-    OptimisticOracleInterface oo = OptimisticOracleInterface(0xA5B9d8a0B0Fa04Ba71BDD68069661ED5C0848884);
+    OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(0xA5B9d8a0B0Fa04Ba71BDD68069661ED5C0848884);
 
     // Use the yes no idetifier to ask arbitary questions, such as the weather on a particular day.
     bytes32 identifier = bytes32("YES_OR_NO_QUERY");
@@ -85,7 +88,7 @@ contract Uma {
         oo.proposePriceFor(msg.sender, address(this), identifier, requestTime, ad, proposedPrice);
     }
 
-    function getState(uint contentId) public view returns (OptimisticOracleInterface.State) {
+    function getState(uint contentId) public view returns (OptimisticOracleV2Interface.State) {
         uint256 requestTime = contentIdToStartingTime[contentId];
         address requester = contentIdToAddress[contentId];
         bytes memory ad = contentIdToAncillaryData[contentId];
