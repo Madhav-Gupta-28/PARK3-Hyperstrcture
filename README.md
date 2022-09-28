@@ -1,36 +1,39 @@
 # Park-3
+
 ## ETH GLOBAL HACKATHON SEPT 2022<br>
-<b>Park 3 is a public data storage and verification hyperstructure. 
+
+<b>Park 3 is a public data storage and verification hyperstructure.
 </b>
+
+### WEBSITE URL --> https://park3-hyperstructure.netlify.app/
 
 A “Hyperstructure” is built to run in perpetuity on distributed systems.  
 <br>
 <br>
+
 ## Lets Take Web 3 Outside.
+
 First we Establish a standard for the State of "Physical Objects" in "Reality"
 <br>
 <br>
 <b>GOAL: Create a publically verifiable STATE in publically accessible SPACETIME.</b>
 <br>
+
 1. Host Video on IPFS of Public Parks and Public Spaces. <br>
 2. Create a "Statement Of Fact" declaring attributes and/or contents of the public place.<br>
 3. If the Statement Of Fact becomes invalid, any user can notify the hyperstructure, and trigger a human review of STATE.<br>
-<br>
-<b>Making Use Of:</b><br>
-IPFS For Storage<br>
-UMA Oracle For Natural Language Questions<br>
-Livepeer Studio For Video Asset Management<br>
-Polygon Network For Speed and Affordable web3 utilities<br>
+   <br>
+   <b>Making Use Of:</b><br>
+   IPFS For Storage<br>
+   UMA Oracle For Natural Language Questions<br>
+   Livepeer Studio For Video Asset Management<br>
+   Polygon Network For Speed and Affordable web3 utilities<br>
 
 ### EXAMPLES OF STATE IN PARK 3
 
 https://user-images.githubusercontent.com/25784418/191646480-303b2f96-0cf4-4c0d-bbb0-a7a42e5d2821.mp4
 
-
-
 https://user-images.githubusercontent.com/25784418/191646314-44f0ddac-db44-4c81-82d8-d05eb26cee77.mp4
-
-
 
 https://user-images.githubusercontent.com/25784418/192062578-75905ea2-fc64-436f-8323-05f2f2e6fc4a.mp4
 
@@ -51,8 +54,6 @@ https://user-images.githubusercontent.com/25784418/192062578-75905ea2-fc64-436f-
 - Provide ReFi solutions, KPI Options, and Insurance verification and payouts that support the preservation of the culture. 
 <br><br><br>
 
-
-
 <br>
 <b>PROBLEMS FOR PUBLIC PARKS ADMINISTRATORS</b> <br><br>
     •    Public Parks and spaces have untapped potential and <u>need trusted data</u>. <br>
@@ -69,16 +70,19 @@ https://user-images.githubusercontent.com/25784418/192062578-75905ea2-fc64-436f-
 - Legal Obligations for administrators<br><br>
 
 ### Polygon PARK3 tokens used as Bond for Oracle:
+
 https://mumbai.polygonscan.com/token/0x28E886cAf21F2428DBf0B6cADB0b6E90B7cFB0d1
 <br><br>
+
 ### IPFS Content Hash:<br>
+
 ipfs://bafybeiabbzawadnujkl53zcif66ollnosb2xuibjvupshxsilyz3364krm
 <br><br>
+
 ### LIVEPEER ASSET:<br>
+
 Bike_Racks.mp4<br>
 Playback URL<br>
 https://livepeercdn.com/recor…8/index.m3u8<br>
 Asset ID<br>
 5790e09f-071d-4afa-a702-f42779156237<br>
-
-
