@@ -14,7 +14,6 @@ import Qrcode from "../QRCode/Qrcode";
 
 
 const Home = (props) => {
-  const [videoFileObject, setVideoFileObject] = useState("");
   const [assetTUS, setAssetTUS] = useState("");
   const [Videourl, seturl] = useState("");
   const [videoFilePath, setVideoFilePath] = useState("");
@@ -26,9 +25,6 @@ const Home = (props) => {
   let account = props.account;
   let web3Obj = props.web3Obj;
   const {
-    login,
-    setdescription,
-    description,
     uploadSucess,
     setuploadSucess,
     proposalData,
@@ -45,13 +41,13 @@ const Home = (props) => {
         setassetid(data[2]);
         setAssetTUS(data[1]);
         seturl(data[0]);
-        setVideoFileObject(VideoFileObjectRef.current);
+
 
         setproposalData([
           ...proposalData,
           {
             proposer: account,
-            description: "Descriptionforvideo",
+            description: Descriptionref.current.value,
             documentName: VideoFileObjectRef.current.value,
             progress: "OnGoing",
             documentUrl: data[0],
@@ -71,6 +67,7 @@ const Home = (props) => {
 
   const sendBtn = async (_id,contract, account, videoFileName, videoObject, tusEndpoint, description) => {
       await startUpload(videoObject, videoFileName, tusEndpoint);
+      console.log("Using description "+description);
       requestData(_id, description, contract, account);
       setuploadSucess(true);
     }
@@ -150,7 +147,7 @@ const Home = (props) => {
                 placeholder="Location"
                 onChange={(e) => {setVideoFilePath(e?.target?.files[0])}}
               />
-              <button onClick={()=> { sendBtn(assetid, contract, account, VideoFileObjectRef.current.value, VideoFileObjectRef.current.files[0], assetTUS, description)} }>Send video {assetid}</button>
+              <button onClick={()=> { sendBtn(assetid, contract, account, VideoFileObjectRef.current.value, VideoFileObjectRef.current.files[0], assetTUS, Descriptionref.current.value)} }>Send video {assetid}</button>
 
           </div>
         </div>
