@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, {useContext, useState, useRef, useEffect} from "react";
 import {
   AppStateContext,
   registerContendId,
@@ -11,13 +11,14 @@ import "../../App.css";
 import Header from "../Header/Header";
 import Qrcode from "../QRCode/Qrcode";
 
-// require("dotenv").config();
+
 
 const Home = (props) => {
-  const [videoFile, setvideoFile] = useState("");
+  const [videoFileObject, setVideoFileObject] = useState("");
   const [assetTUS, setAssetTUS] = useState("");
   const [Videourl, seturl] = useState("");
-  const [video, setvideo] = useState("");
+  const [videoFilePath, setVideoFilePath] = useState("");
+  const [sendButtonPressed, setSendButtonPressed] = useState(false);
 
   const { assetid, setassetid } = useContext(AppStateContext);
 
@@ -34,57 +35,55 @@ const Home = (props) => {
     setproposalData,
   } = useContext(AppStateContext);
 
-  const VideoFileRef = useRef();
+  const VideoFileObjectRef = useRef();
   const Descriptionref = useRef();
 
-  const storeAssetOnIPFS = async function (id) {
-    await fetch(`https://livepeer.studio/api/asset/${id}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer 6a234aef-9c9c-41a1-82ba-948e33476fa2`,
-        "Content-Type": "application/json",
-      },
-      body: {
-        storage: {
-          ipfs: true,
-        },
-      },
-    });
-  };
+  useEffect(()=> {
+    async function fetchUrl( ){
+      if(videoFilePath != ""){
+        let data = await getUploadURL(VideoFileObjectRef.current.value);
+        setassetid(data[2]);
+        setAssetTUS(data[1]);
+        seturl(data[0]);
+        setVideoFileObject(VideoFileObjectRef.current);
 
-  async function getUploadURL() {
-    try {
-      const response = await fetch(
-        "https://livepeer.studio/api/asset/request-upload",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer 6a234aef-9c9c-41a1-82ba-948e33476fa2`,
-            "Content-Type": "application/json",
+        setproposalData([
+          ...proposalData,
+          {
+            proposer: account,
+            description: "Descriptionforvideo",
+            documentName: VideoFileObjectRef.current.value,
+            progress: "OnGoing",
+            documentUrl: data[0],
+            id: data[1],
           },
-          body: JSON.stringify({
-            name: videoFile,
-          }),
-        }
-      );
+        ]);
+        console.log("AssetId in useeffect: "+data[2]);
+        console.log("TUS endpoint is "+ data[1]);
+        console.log("Url is "+ data[0]);
+        console.log("VideoFileObject: ", VideoFileObjectRef.current);
+      }
+    }
 
-      const { url, tusEndpoint, asset } = await response.json(); // Getting asset id
+      fetchUrl();
+      }, [videoFilePath]
+  );
 
-      setAssetTUS(tusEndpoint);
-      seturl(url);
-      console.log("Asset id before setassetid: " + asset.id);
-      setassetid(asset.id);
-
-      console.log(Videourl);
-
-      const upload = new tus.Upload(video, {
+  const sendBtn = async (_id,contract, account, videoFileName, videoObject, tusEndpoint, description) => {
+      await startUpload(videoObject, videoFileName, tusEndpoint);
+      requestData(_id, description, contract, account);
+      setuploadSucess(true);
+    }
+    async function startUpload(videoObject, videoFileName, tusEndpoint) {
+    console.log("All: "+videoFileName+" ", videoObject, " "+videoObject);
+      const upload = new tus.Upload(videoObject, {
         endpoint: tusEndpoint, // URL from `tusEndpoint` field in the `/request-upload` response
         retryDelays: [0, 3000, 5000, 10000, 20000],
         metadata: {
-          filename: videoFile,
+          filename: videoFileName,
           filetype: "video/mp4",
         },
-        uploadSize: video.size,
+        uploadSize: videoObject.size,
         onError(err) {
           console.error("Error uploading file:", err);
         },
@@ -101,39 +100,7 @@ const Home = (props) => {
         upload.resumeFromPreviousUpload(previousUploads[0]);
       }
       upload.start();
-
-      await storeAssetOnIPFS(`bd18c363-c8a6-45c5-a88b-170f9cfabbc7`);
-    } catch (error) {
-      console.log(error);
     }
-  }
-
-  const sendBtn = (event) => {
-    event.preventDefault();
-
-    getUploadURL();
-    setvideoFile(VideoFileRef.current.value);
-    setdescription(Descriptionref.current.value);
-
-    console.log(description);
-    getUploadURL();
-    setproposalData([
-      ...proposalData,
-      {
-        proposer: account,
-        description: description,
-        documentName: videoFile,
-        progress: "OnGoing",
-        documentUrl: Videourl,
-        id: assetid,
-      },
-    ]);
-    console.log("Created and uploaded asset with asset id " + assetid);
-    console.log(assetid);
-    requestData(assetid, description, contract, account);
-
-    setuploadSucess(true);
-  };
 
   return (
     <>
@@ -164,7 +131,6 @@ const Home = (props) => {
             </h2>
 
             {/* <div> */}
-            <form method="POST">
               <input
                 type="text"
                 required
@@ -179,13 +145,13 @@ const Home = (props) => {
                 accept="video/*"
                 id="video"
                 name="video"
-                ref={VideoFileRef}
+                ref={VideoFileObjectRef}
                 required
                 placeholder="Location"
-                onChange={(e) => setvideo(e?.target?.files[0])}
+                onChange={(e) => {setVideoFilePath(e?.target?.files[0])}}
               />
-              <button onClick={sendBtn}>Send</button>
-            </form>
+              <button onClick={()=> { sendBtn(assetid, contract, account, VideoFileObjectRef.current.value, VideoFileObjectRef.current.files[0], assetTUS, description)} }>Send video {assetid}</button>
+
           </div>
         </div>
         // </div>
@@ -193,4 +159,51 @@ const Home = (props) => {
     </>
   );
 };
+
+// require("dotenv").config();
+async function getUploadURL(videoFileName) {
+  try {
+    const response = await fetch(
+        "https://livepeer.studio/api/asset/request-upload",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer 6a234aef-9c9c-41a1-82ba-948e33476fa2`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: videoFileName,
+          }),
+        }
+    );
+
+    const { url, tusEndpoint, asset } = await response.json(); // Getting asset id
+
+
+    //await storeAssetOnIPFS(`bd18c363-c8a6-45c5-a88b-170f9cfabbc7`);
+    return [url, tusEndpoint, asset.id];
+  } catch (error) {
+    console.log(error);
+  }
+
+}
+
+// const storeAssetOnIPFS = async function (id) {
+//   await fetch(`https://livepeer.studio/api/asset/${id}`, {
+//     method: "PATCH",
+//     headers: {
+//       Authorization: `Bearer 6a234aef-9c9c-41a1-82ba-948e33476fa2`,
+//       "Content-Type": "application/json",
+//     },
+//     body: {
+//       storage: {
+//         ipfs: true,
+//       },
+//     },
+//   });
+// };
+
+
+
+
 export default Home;
