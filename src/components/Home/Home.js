@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef, useEffect} from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import {
   AppStateContext,
   registerContendId,
@@ -11,15 +11,11 @@ import "../../App.css";
 import Header from "../Header/Header";
 import Qrcode from "../QRCode/Qrcode";
 
-
-
 const Home = (props) => {
   const [assetTUS, setAssetTUS] = useState("");
   const [Videourl, seturl] = useState("");
   const [videoFilePath, setVideoFilePath] = useState("");
   const [sendButtonPressed, setSendButtonPressed] = useState(false);
-
-  const { assetid, setassetid } = useContext(AppStateContext);
 
   let contract = props.contract;
   let account = props.account;
@@ -29,19 +25,23 @@ const Home = (props) => {
     setuploadSucess,
     proposalData,
     setproposalData,
+    setassetid,
+    assetid,
+
+    setdescription,
   } = useContext(AppStateContext);
 
   const VideoFileObjectRef = useRef();
   const Descriptionref = useRef();
 
-  useEffect(()=> {
-    async function fetchUrl( ){
-      if(videoFilePath != ""){
+  useEffect(() => {
+    async function fetchUrl() {
+      if (videoFilePath != "") {
         let data = await getUploadURL(VideoFileObjectRef.current.value);
         setassetid(data[2]);
         setAssetTUS(data[1]);
         seturl(data[0]);
-
+        setdescription(Descriptionref.current.value);
 
         setproposalData([
           ...proposalData,
@@ -54,50 +54,57 @@ const Home = (props) => {
             id: data[1],
           },
         ]);
-        console.log("AssetId in useeffect: "+data[2]);
-        console.log("TUS endpoint is "+ data[1]);
-        console.log("Url is "+ data[0]);
+        console.log("AssetId in useeffect: " + data[2]);
+        console.log("TUS endpoint is " + data[1]);
+        console.log("Url is " + data[0]);
         console.log("VideoFileObject: ", VideoFileObjectRef.current);
       }
     }
 
-      fetchUrl();
-      }, [videoFilePath]
-  );
+    fetchUrl();
+  }, [videoFilePath]);
 
-  const sendBtn = async (_id,contract, account, videoFileName, videoObject, tusEndpoint, description) => {
-      await startUpload(videoObject, videoFileName, tusEndpoint);
-      console.log("Using description "+description);
-      requestData(_id, description, contract, account);
-      setuploadSucess(true);
+  const sendBtn = async (
+    _id,
+    contract,
+    account,
+    videoFileName,
+    videoObject,
+    tusEndpoint,
+    description
+  ) => {
+    await startUpload(videoObject, videoFileName, tusEndpoint);
+    console.log("Using description " + description);
+    requestData(_id, description, contract, account);
+    setuploadSucess(true);
+  };
+  async function startUpload(videoObject, videoFileName, tusEndpoint) {
+    console.log("All: " + videoFileName + " ", videoObject, " " + videoObject);
+    const upload = new tus.Upload(videoObject, {
+      endpoint: tusEndpoint, // URL from `tusEndpoint` field in the `/request-upload` response
+      retryDelays: [0, 3000, 5000, 10000, 20000],
+      metadata: {
+        filename: videoFileName,
+        filetype: "video/mp4",
+      },
+      uploadSize: videoObject.size,
+      onError(err) {
+        console.error("Error uploading file:", err);
+      },
+      onProgress(bytesUploaded, bytesTotal) {
+        const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+        console.log("Uploaded " + percentage + "%");
+      },
+      onSuccess() {
+        console.log("Upload finished:", upload.url);
+      },
+    });
+    const previousUploads = await upload.findPreviousUploads();
+    if (previousUploads.length > 0) {
+      upload.resumeFromPreviousUpload(previousUploads[0]);
     }
-    async function startUpload(videoObject, videoFileName, tusEndpoint) {
-    console.log("All: "+videoFileName+" ", videoObject, " "+videoObject);
-      const upload = new tus.Upload(videoObject, {
-        endpoint: tusEndpoint, // URL from `tusEndpoint` field in the `/request-upload` response
-        retryDelays: [0, 3000, 5000, 10000, 20000],
-        metadata: {
-          filename: videoFileName,
-          filetype: "video/mp4",
-        },
-        uploadSize: videoObject.size,
-        onError(err) {
-          console.error("Error uploading file:", err);
-        },
-        onProgress(bytesUploaded, bytesTotal) {
-          const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
-          console.log("Uploaded " + percentage + "%");
-        },
-        onSuccess() {
-          console.log("Upload finished:", upload.url);
-        },
-      });
-      const previousUploads = await upload.findPreviousUploads();
-      if (previousUploads.length > 0) {
-        upload.resumeFromPreviousUpload(previousUploads[0]);
-      }
-      upload.start();
-    }
+    upload.start();
+  }
 
   return (
     <>
@@ -128,27 +135,43 @@ const Home = (props) => {
             </h2>
 
             {/* <div> */}
-              <input
-                type="text"
-                required
-                id="description"
-                name="description"
-                placeholder="Describe Content"
-                ref={Descriptionref}
-              />
-              <h5 className="textcolor">IN</h5>
-              <input
-                type="file"
-                accept="video/*"
-                id="video"
-                name="video"
-                ref={VideoFileObjectRef}
-                required
-                placeholder="Location"
-                onChange={(e) => {setVideoFilePath(e?.target?.files[0])}}
-              />
-              <button onClick={()=> { sendBtn(assetid, contract, account, VideoFileObjectRef.current.value, VideoFileObjectRef.current.files[0], assetTUS, Descriptionref.current.value)} }>Send video {assetid}</button>
-
+            <input
+              type="text"
+              required
+              id="description"
+              name="description"
+              placeholder="Describe Content"
+              ref={Descriptionref}
+            />
+            <h5 className="textcolor">IN</h5>
+            <input
+              className="inputFile"
+              type="file"
+              accept="video/*"
+              id="video"
+              name="video"
+              ref={VideoFileObjectRef}
+              required
+              placeholder="Location"
+              onChange={(e) => {
+                setVideoFilePath(e?.target?.files[0]);
+              }}
+            />
+            <button
+              onClick={() => {
+                sendBtn(
+                  assetid,
+                  contract,
+                  account,
+                  VideoFileObjectRef.current.value,
+                  VideoFileObjectRef.current.files[0],
+                  assetTUS,
+                  Descriptionref.current.value
+                );
+              }}
+            >
+              Send video {assetid}
+            </button>
           </div>
         </div>
         // </div>
@@ -161,28 +184,26 @@ const Home = (props) => {
 async function getUploadURL(videoFileName) {
   try {
     const response = await fetch(
-        "https://livepeer.studio/api/asset/request-upload",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer 6a234aef-9c9c-41a1-82ba-948e33476fa2`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: videoFileName,
-          }),
-        }
+      "https://livepeer.studio/api/asset/request-upload",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer 6a234aef-9c9c-41a1-82ba-948e33476fa2`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: videoFileName,
+        }),
+      }
     );
 
     const { url, tusEndpoint, asset } = await response.json(); // Getting asset id
-
 
     //await storeAssetOnIPFS(`bd18c363-c8a6-45c5-a88b-170f9cfabbc7`);
     return [url, tusEndpoint, asset.id];
   } catch (error) {
     console.log(error);
   }
-
 }
 
 // const storeAssetOnIPFS = async function (id) {
@@ -199,8 +220,5 @@ async function getUploadURL(videoFileName) {
 //     },
 //   });
 // };
-
-
-
 
 export default Home;
