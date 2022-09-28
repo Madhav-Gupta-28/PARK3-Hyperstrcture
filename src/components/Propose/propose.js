@@ -20,7 +20,7 @@ const Proposal = (props) => {
               {proposal.description.slice(0, 10)}...
             </div>
             <div className="proposal-video inline">
-              <button src="www.google.com">Video</button>
+              <a href="/watchvideo">Video</a>
             </div>
             <div className="proposal-address inline">
               {proposal.proposer.slice(0, 6)}...{proposal.proposer.slice(38)}

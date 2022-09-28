@@ -80,7 +80,7 @@ contract Uma {
 
         oo.settle(address(this), identifier, requestTime, ad);
     }
-
+    
     function propose(uint contentId, int256 proposedPrice) public {
         bytes memory ad = contentIdToAncillaryData[contentId];
         uint256 requestTime = contentIdToStartingTime[contentId];
